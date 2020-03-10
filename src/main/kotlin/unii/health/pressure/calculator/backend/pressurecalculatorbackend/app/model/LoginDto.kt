@@ -3,7 +3,7 @@ package unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.mo
 import javax.validation.constraints.NotBlank
 
 
-data class UserDto(
+data class LoginDto(
         @field:NotBlank(message = "login is mandatory")
         var login: String,
 
