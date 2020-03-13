@@ -4,14 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.entity.User
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.mapper.UserCreateMapper
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.mapper.UserLoginMapper
+import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.mapper.UserDtoToUserMapper
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.model.CreateUserDto
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.model.LoginDto
+import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.model.UserDto
 
 
 //TODO:
 class UserServiceImpl @Autowired constructor(val userRepository: UserRepository,
                                              val loginMapper: UserLoginMapper,
-                                             val createMapper: UserCreateMapper) : UserService {
+                                             val createMapper: UserCreateMapper,
+                                             val userMapperDto: UserDtoToUserMapper) : UserService {
 
     override fun addUser(user: CreateUserDto) {
         if (!isUserExist(user.login)) {
@@ -32,11 +35,17 @@ class UserServiceImpl @Autowired constructor(val userRepository: UserRepository,
         return userRepository.findUserByLogin(login)
     }
 
-    override fun getAllUsers(): List<User>? {
-        return userRepository.findAll()
+    override fun getAllUsers(): List<UserDto>? {
+        var userList: List<User>? = userRepository.findAll()
+        var userLists: List<UserDto> = ArrayList()
+
+        userList?.forEach {
+            userLists += userMapperDto.map(it)
+        }
+        return userLists
     }
 
-    override fun getUserById(id: Int): User? {
-        return userRepository.getOne(id)
+    override fun getUserById(id: Int): UserDto? {
+        return userMapperDto.map(userRepository.getOne(id))
     }
 }

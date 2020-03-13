@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.entity.User
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.model.CreateUserDto
+import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.model.UserDto
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.services.UserService
 import javax.validation.Valid
 
@@ -31,12 +32,12 @@ class UserController @Autowired constructor(var userService: UserService) {
 
 
     @PostMapping(value = ["user"])
-    fun getUser(@RequestBody @Valid id: Int): User? {
+    fun getUser(@RequestBody @Valid id: Int): UserDto? {
         return userService.getUserById(id)
     }
 
     @GetMapping(value = ["user"])
-    fun getUser(): List<User>? {
+    fun getUser(): List<UserDto>? {
         return userService.getAllUsers()
     }
     //TODO: Login

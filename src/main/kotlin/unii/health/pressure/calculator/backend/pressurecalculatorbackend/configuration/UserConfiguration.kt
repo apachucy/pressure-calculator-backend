@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.mapper.UserCreateMapper
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.mapper.UserLoginMapper
+import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.mapper.UserDtoToUserMapper
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.services.UserRepository
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.services.UserService
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.services.UserServiceImpl
@@ -16,9 +17,10 @@ class UserConfiguration {
     @Bean
     fun userServiceImpl(userRepository: UserRepository,
                         loginMapper: UserLoginMapper,
-                        createMapper: UserCreateMapper
+                        createMapper: UserCreateMapper,
+                        userMapperDTo: UserDtoToUserMapper
     ): UserService {
-        return UserServiceImpl(userRepository, loginMapper, createMapper)
+        return UserServiceImpl(userRepository, loginMapper, createMapper, userMapperDTo)
     }
 
     @Bean
@@ -26,6 +28,7 @@ class UserConfiguration {
         val mapperFactory: DefaultMapperFactory = DefaultMapperFactory.Builder().build()
         UserLoginMapper.Configurer.configure(mapperFactory)
         UserCreateMapper.Configurer.configure(mapperFactory)
+        UserDtoToUserMapper.Configurer.configure(mapperFactory)
         return mapperFactory.mapperFacade;
 
     }
