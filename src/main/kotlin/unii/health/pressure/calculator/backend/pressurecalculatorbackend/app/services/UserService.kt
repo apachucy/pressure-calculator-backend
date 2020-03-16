@@ -9,11 +9,11 @@ import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.mod
 interface UserService {
 
     fun addUser(login: CreateUserDto)
-    fun login(login: LoginDto): User
+    fun login(login: LoginDto): User?
 
     fun isUserExist(userName: String): Boolean
 
-    fun getUserByLogin(login: String): User?
+    fun getUserByLogin(login: String): UserDto?
 
     fun getAllUsers(): List<UserDto>?
 

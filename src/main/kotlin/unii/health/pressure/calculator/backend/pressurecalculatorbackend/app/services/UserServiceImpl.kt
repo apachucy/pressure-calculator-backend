@@ -31,8 +31,8 @@ class UserServiceImpl @Autowired constructor(val userRepository: UserRepository,
         return user != null
     }
 
-    override fun getUserByLogin(login: String): User? {
-        return userRepository.findUserByLogin(login)
+    override fun getUserByLogin(login: String): UserDto? {
+        return userRepository.findUserByLogin(login)?.let { userMapperDto.map(it) }
     }
 
     override fun getAllUsers(): List<UserDto>? {
