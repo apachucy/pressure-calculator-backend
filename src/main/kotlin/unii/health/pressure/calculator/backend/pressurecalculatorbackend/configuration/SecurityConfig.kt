@@ -3,6 +3,7 @@ package unii.health.pressure.calculator.backend.pressurecalculatorbackend.config
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -17,6 +18,11 @@ import javax.servlet.Filter
 @Configuration
 @EnableWebSecurity
 class SecurityConfig : WebSecurityConfigurerAdapter() {
+
+    companion object {
+        const val FILTER_ALL: String = "/*"
+    }
+
     override fun configure(auth: AuthenticationManagerBuilder?) {
         auth?.inMemoryAuthentication()
                 ?.withUser("admin")
@@ -29,7 +35,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     }
 
-    override fun configure(http: HttpSecurity?) {
+/*    override fun configure(http: HttpSecurity?) {
         http?.csrf()
                 ?.disable()
                 ?.authorizeRequests()
@@ -37,5 +43,27 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 ?.and()
                 ?.httpBasic()
 
+    }*/
+
+    @Bean
+    fun csrfGrantingFilter(): FilterRegistrationBean<Filter> {
+        val frb: FilterRegistrationBean<Filter> = FilterRegistrationBean()
+        frb.filter = CsrfGrantingFilter(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        frb.addUrlPatterns(FILTER_ALL)
+        return frb
     }
+
+    @Bean
+    fun csrfValidationFilter(): FilterRegistrationBean<Filter> {
+        val frb: FilterRegistrationBean<Filter> = FilterRegistrationBean()
+        frb.filter = CsrfValidationFilter("/")
+        frb.addUrlPatterns(FILTER_ALL + "/*")
+        return frb
+    }
+
+    @Bean
+    override fun authenticationManagerBean(): AuthenticationManager {
+        return super.authenticationManagerBean()
+    }
+
 }
