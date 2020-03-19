@@ -22,15 +22,4 @@ class UserConfiguration {
     ): UserService {
         return UserServiceImpl(userRepository, loginMapper, createMapper, userMapperDTo)
     }
-
-    @Bean
-    fun mapperFacade(): MapperFacade {
-        val mapperFactory: DefaultMapperFactory = DefaultMapperFactory.Builder().build()
-        UserLoginMapper.Configurer.configure(mapperFactory)
-        UserCreateMapper.Configurer.configure(mapperFactory)
-        UserDtoToUserMapper.Configurer.configure(mapperFactory)
-        return mapperFactory.mapperFacade;
-
-    }
-
 }

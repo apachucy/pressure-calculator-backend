@@ -9,8 +9,6 @@ import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.mod
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.model.LoginDto
 import unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.model.UserDto
 
-
-//TODO:
 class UserServiceImpl @Autowired constructor(val userRepository: UserRepository,
                                              val loginMapper: UserLoginMapper,
                                              val createMapper: UserCreateMapper,

@@ -28,7 +28,6 @@ class UserController @Autowired constructor(var userService: UserService) {
 
     @PostMapping(value = ["userByName"])
     fun getUserByLogin(@RequestBody @Valid userByLogin: GetUserByLoginDto): UserDto? {
-
         return userService.getUserByLogin(userByLogin.login)
     }
 
@@ -42,6 +41,4 @@ class UserController @Autowired constructor(var userService: UserService) {
     fun getUser(): List<UserDto>? {
         return userService.getAllUsers()
     }
-    //TODO: Login
-
 }

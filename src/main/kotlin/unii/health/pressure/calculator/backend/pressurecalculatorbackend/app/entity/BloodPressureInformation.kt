@@ -3,9 +3,6 @@ package unii.health.pressure.calculator.backend.pressurecalculatorbackend.app.en
 import org.springframework.lang.NonNull
 import javax.persistence.*
 
-//TODO: https://github.com/orika-mapper/orika/issues/222
-//Exclude nested issue
-
 @Entity
 @Table(name = "blood_pressure")
 data class BloodPressureInformation(@NonNull
